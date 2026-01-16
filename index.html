@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>miqe | Animation Director</title>
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body>
+  <nav>
+    <div class="nav-inner">
+      <a href="#" class="logo">miqe</a>
+      <div class="nav-links">
+        <a href="#works">WORKS</a>
+        <a href="#about">ABOUT</a>
+        <a href="#contact">CONTACT</a>
+      </div>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div>
+      <h1>miqe</h1>
+      <p class="title">ANIMATION DIRECTOR</p>
+      <p class="tagline">Short Films | Motion / Anime / Game-inspired | Visual Storyteller</p>
+    </div>
+  </section>
+
+  <section id="works" class="section-gray">
+    <div class="container">
+      <p class="section-label">WORKS</p>
+      <h2 class="section-title">制作実績</h2>
+      <p class="section-subtitle">これまでの制作実績をご覧ください</p>
+      <div class="filter">
+        <button class="filter-btn active" onclick="filterWorks('all')">All</button>
+        <button class="filter-btn" onclick="filterWorks('2D Animation')">2D Animation</button>
+        <button class="filter-btn" onclick="filterWorks('Pixel Art')">Pixel Art</button>
+        <button class="filter-btn" onclick="filterWorks('PV / MV')">PV / MV</button>
+      </div>
+      <div class="grid" id="grid"></div>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="container">
+      <div class="about-inner">
+        <p class="section-label">ABOUT</p>
+        <h2 class="section-title">miqe</h2>
+        <p>夢や日常のひとコマを、短編アニメーションとして形にしています。作品では時間と動きを中心に、見る人に想像や感情を届けることを大切にしています。</p>
+        <p>「曲やストーリーを映像で感じてもらう」ことも試みています。小さな画面でも、心に残る瞬間を作ることが私の軸です。</p>
+        <div class="style-box">
+          <p class="style-label">STYLE</p>
+          <ul class="style-list">
+            <li>主に2Dアニメーション（自主制作 / PV / オリジナルショートムービー）</li>
+            <li>ドット絵や架空のゲーム紹介など、遊び心を取り入れた表現も</li>
+            <li>音を使わず映像のみでも伝わる作品作り</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="section-gray">
+    <div class="contact-inner">
+      <p class="section-label">GET IN TOUCH</p>
+      <h2 class="section-title">ご依頼・お問い合わせ</h2>
+      <p class="section-subtitle">お仕事のご依頼・ご相談はお気軽にお問い合わせください</p>
+      <a href="mailto:hello@example.com" class="contact-btn">Contact Me</a>
+      <div class="social">
+        <a href="#">Instagram</a>
+        <a href="#">YouTube</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-inner">
+      <p>© 2025 miqe. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <div class="modal" id="modal">
+    <button class="modal-close" onclick="closeModal()">×</button>
+    <div class="modal-content">
+      <div class="modal-video">動画プレーヤー</div>
+      <h3 class="modal-title" id="modalTitle"></h3>
+      <p class="modal-meta" id="modalMeta"></p>
+    </div>
+  </div>
+
+  <script>
+    var works = [
+      { id: 1, title: "Loop Animation", category: "2D Animation", img: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=600&h=400&fit=crop", duration: "0:15" },
+      { id: 2, title: "Pixel Art Short", category: "Pixel Art", img: "https://images.unsplash.com/photo-1618336753974-aae8e04506aa?w=600&h=400&fit=crop", duration: "0:30" },
+      { id: 3, title: "Short Story Animation", category: "2D Animation", img: "https://images.unsplash.com/photo-1534972195531-d756b9bfa9f2?w=600&h=400&fit=crop", duration: "1:30" },
+      { id: 4, title: "Music Video", category: "PV / MV", img: "https://images.unsplash.com/photo-1617791160505-6f00504e3519?w=600&h=400&fit=crop", duration: "3:45" },
+      { id: 5, title: "Fake Game Trailer", category: "Pixel Art", img: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=600&h=400&fit=crop", duration: "1:00" },
+      { id: 6, title: "Original Short Film", category: "2D Animation", img: "https://images.unsplash.com/photo-1569701813229-33284b643e3c?w=600&h=400&fit=crop", duration: "2:20" }
+    ];
+
+    function renderWorks(list) {
+      var grid = document.getElementById("grid");
+      var html = "";
+      for (var i = 0; i < list.length; i++) {
+        var w = list[i];
+        html += '<div class="card" onclick="openModal(' + w.id + ')">';
+        html += '<img src="' + w.img + '" alt="' + w.title + '">';
+        html += '<div class="card-overlay"><div class="play-btn">▶</div></div>';
+        html += '<div class="card-info">';
+        html += '<p class="card-category">' + w.category + '</p>';
+        html += '<p class="card-title">' + w.title + '</p>';
+        html += '<p class="card-duration">' + w.duration + '</p>';
+        html += '</div></div>';
+      }
+      grid.innerHTML = html;
+    }
+
+    function filterWorks(cat) {
+      var btns = document.querySelectorAll(".filter-btn");
+      for (var i = 0; i < btns.length; i++) {
+        btns[i].classList.remove("active");
+        if (btns[i].innerText === cat || (cat === "all" && btns[i].innerText === "All")) {
+          btns[i].classList.add("active");
+        }
+      }
+      if (cat === "all") {
+        renderWorks(works);
+      } else {
+        var filtered = [];
+        for (var j = 0; j < works.length; j++) {
+          if (works[j].category === cat) filtered.push(works[j]);
+        }
+        renderWorks(filtered);
+      }
+    }
+
+    function openModal(id) {
+      var w;
+      for (var i = 0; i < works.length; i++) {
+        if (works[i].id === id) w = works[i];
+      }
+      document.getElementById("modalTitle").innerText = w.title;
+      document.getElementById("modalMeta").innerText = w.category + " • " + w.duration;
+      document.getElementById("modal").classList.add("active");
+    }
+
+    function closeModal() {
+      document.getElementById("modal").classList.remove("active");
+    }
+
+    document.getElementById("modal").addEventListener("click", function(e) {
+      if (e.target === this) closeModal();
+    });
+
+    renderWorks(works);
+  </script>
+</body>
+</html>
